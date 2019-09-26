@@ -1,22 +1,34 @@
 PlayState = Class{__includes = BaseState}
 
 function PlayState:init()
+    reset()
      self.score = 0
      score = 0
      t = 0
      game_timer = 0
     love.mouse.setVisible(false)
+    calamity_timer = 3
 end
 
 function PlayState:update(dt)
       t = t + dt
-     game_timer = game_timer +dt
-     
+      calamity_timer = calamity_timer - dt
+      
+      if calamity_timer <= 0 then
+  --screen:rotate(360
+   screen:setShake(20)
+  screen:setRotation(.1)
+  
+ -- screen:zoom(50)
+ -- camera.rotation = math.pi/8
+  calamity_timer = 3
+end
+
+     game_timer = game_timer + dt 
     effect:send("time", t)
     mouse.x, mouse.y = love.mouse.getPosition()
     shipAngle =  math.atan2(mouse.y-shipY, mouse.x-shipX) % (2 * math.pi)
     
-
     if love.keyboard.isDown('w') then
       shipY = (shipY - player_speed*dt) % WINDOW_HEIGHT 
     end
@@ -94,7 +106,8 @@ function PlayState:update(dt)
             break
         end
     end
-    if #asteroids >= 15 then
+    
+   if #asteroids >= 30 then
       table.remove(asteroids,asteroidIndex)
     end
     
@@ -109,26 +122,29 @@ end
 
 
 function PlayState:render()
---love.graphics.clear(40, 45, 52, 255)
+  --crosshair
 love.graphics.draw(cursor, mouse.x- cursor:getWidth() / 2, mouse.y- cursor:getHeight() / 2)
-love.graphics.setColor(255,255,255)
+--player sprite
 love.graphics.draw(player,shipX-16,shipY-16)
+
+
+--UI
 love.graphics.setFont(mediumFont)
 love.graphics.print('Mouse Coordinates: ' .. mouse.x .. ', ' .. mouse.y..
   '     Turret Angle: '..shipAngle..
   '     FPS: '..tostring(love.timer.getFPS())..
   '     Score: '..tostring(score)..
+   '     calamity_timer: '..tostring(calamity_timer)..
   '     game_timer: '..tostring(game_timer))
-
+--player circle
     for y = -1, 1 do
         for x = -1, 1 do
             love.graphics.origin()
             love.graphics.translate(x * WINDOW_WIDTH, y * WINDOW_HEIGHT)
-            love.graphics.setColor(0, 255, 0,50)
-            love.graphics.setShader(effect)
+            love.graphics.setColor(255,255,255)
             love.graphics.circle('line', shipX, shipY, shipRadius)
-            love.graphics.setShader()
-            love.graphics.setColor(255, 255, 255)
+            --love.graphics.reset()
+--player turret
             local shipCircleDistance = 30
             love.graphics.circle(
                 'line',
@@ -143,22 +159,17 @@ love.graphics.print('Mouse Coordinates: ' .. mouse.x .. ', ' .. mouse.y..
                 shipY - math.sin(shipAngle) * shipCircleDistance,
                 5
             )
-
+--bullet
             for bulletIndex, bullet in ipairs(bullets) do
-
-
                 love.graphics.circle('line', bullet.x, bullet.y, bulletRadius)
                  love.graphics.circle('line', bullet.a, bullet.b, bulletRadius)
-    
-          end
-          
-           love.graphics.setShader(effect)
+                 end
+          --enemies
+          --love.graphics.setShader(effect)
             for asteroidIndex, asteroid in ipairs(asteroids) do
-                --love.graphics.setColor(math.random(1,255), math.random(1,255),math.random(1,255))
-                --love.graphics.setColor(255,255,255)
                 love.graphics.circle('line', asteroid.x, asteroid.y, asteroidStages[asteroid.stage].radius)
             end
-            love.graphics.setShader()
+            --love.graphics.reset()
         end
     end
 end

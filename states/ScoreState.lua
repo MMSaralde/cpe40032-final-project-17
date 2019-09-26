@@ -19,7 +19,7 @@ function ScoreState:render()
     --love.graphics.clear(40, 45, 52, 255)
     love.graphics.setColor(255,255,255)
     love.graphics.setFont(hugeFont)
-    love.graphics.printf('DEAD', 0, 200, 1280, 'center')
+    love.graphics.printf('DEAD', 0, 150, 1280, 'center')
 
     love.graphics.setFont(largeFont)
     love.graphics.printf('Score: ' .. tostring(self.score), 0, 460, 1280, 'center')
@@ -27,5 +27,5 @@ function ScoreState:render()
     
     love.graphics.setFont(mediumFont)
     love.graphics.printf('PRESS R TO RESTART', 0, 500, 1280, 'center')
-    love.graphics.printf('M FOR MENU, ESC TO GIVE UP', 0, 540, 1280, 'center')
+    love.graphics.printf('M FOR MENU, ESC TO GIVE UP', 0, 520, 1280, 'center')
 end
