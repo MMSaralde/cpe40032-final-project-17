@@ -1,6 +1,6 @@
 PlayState = Class{__includes = BaseState}
+
 function PlayState:init()
-     mouse.x, mouse.y = love.mouse.getPosition()
      self.score = 0
      score = 0
      t = 0
@@ -9,9 +9,9 @@ function PlayState:init()
 end
 
 function PlayState:update(dt)
-   effect = love.graphics.newShader [[extern number time;vec4 effect(vec4 color, Image texture, vec2 texture_coords,vec2          pixel_coords){return vec4((1.0+sin(time))/2.0, abs(cos(time)), abs(sin(time)), 1.0);}]]
-    t = t + dt
+      t = t + dt
      game_timer = game_timer +dt
+     
     effect:send("time", t)
     mouse.x, mouse.y = love.mouse.getPosition()
     shipAngle =  math.atan2(mouse.y-shipY, mouse.x-shipX) % (2 * math.pi)
@@ -44,7 +44,7 @@ function PlayState:update(dt)
         if bullet.timeLeft <= 0 then
             table.remove(bullets, bulletIndex)
         else
-            local bulletSpeed = 500
+            local bulletSpeed = 600
             bullet.x = (bullet.x + math.cos(bullet.angle) * bulletSpeed * dt) % WINDOW_WIDTH
             bullet.y = (bullet.y + math.sin(bullet.angle) * bulletSpeed * dt) % WINDOW_HEIGHT
             
@@ -63,7 +63,6 @@ function PlayState:update(dt)
                 if asteroid.stage > 1 then
                     local angle1 = love.math.random() * (2 * math.pi)
                     local angle2 = (angle1 - math.pi) % (2 * math.pi)           
-
                     table.insert(asteroids, {
                         x = asteroid.x,
                         y = asteroid.y,
@@ -74,9 +73,8 @@ function PlayState:update(dt)
                         x = asteroid.x,
                         y = asteroid.y,
                         angle = angle2,
-                        stage = asteroid.stage ,
+                        stage = asteroid.stage,
                     })
-
                 end
                 table.remove(asteroids, asteroidIndex)
                 break
@@ -89,8 +87,6 @@ function PlayState:update(dt)
         asteroid.y = (asteroid.y + math.sin(asteroid.angle) * asteroidStages[asteroid.stage].speed * dt) % WINDOW_HEIGHT
 
         if areCirclesIntersecting(shipX, shipY, shipRadius, asteroid.x, asteroid.y, asteroidStages[asteroid.stage].radius) then
-            --reset()
-            --gStateMachine:change('score')
             camera:shake(8, 1, 60)
             gStateMachine:change('score', {
                     score = self.score
@@ -98,19 +94,23 @@ function PlayState:update(dt)
             break
         end
     end
-      
-         
+    if #asteroids >= 15 then
+      table.remove(asteroids,asteroidIndex)
+    end
+    
   if #asteroids == 0 then
        -- reset()
      gStateMachine:change('score', {
                    score = self.score
                 })
     end
+    
 end
 
+
 function PlayState:render()
-love.graphics.clear(40, 45, 52, 255)
- love.graphics.draw(cursor, mouse.x- cursor:getWidth() / 2, mouse.y- cursor:getHeight() / 2)
+--love.graphics.clear(40, 45, 52, 255)
+love.graphics.draw(cursor, mouse.x- cursor:getWidth() / 2, mouse.y- cursor:getHeight() / 2)
 love.graphics.setColor(255,255,255)
 love.graphics.draw(player,shipX-16,shipY-16)
 love.graphics.setFont(mediumFont)
@@ -122,7 +122,7 @@ love.graphics.print('Mouse Coordinates: ' .. mouse.x .. ', ' .. mouse.y..
 
     for y = -1, 1 do
         for x = -1, 1 do
-           -- love.graphics.origin()
+            love.graphics.origin()
             love.graphics.translate(x * WINDOW_WIDTH, y * WINDOW_HEIGHT)
             love.graphics.setColor(0, 255, 0,50)
             love.graphics.setShader(effect)
@@ -136,7 +136,7 @@ love.graphics.print('Mouse Coordinates: ' .. mouse.x .. ', ' .. mouse.y..
                 shipY + math.sin(shipAngle) * shipCircleDistance,
                 5
             )
-            
+
             love.graphics.circle(
                 'line',
                 shipX - math.cos(shipAngle) * shipCircleDistance,
@@ -145,17 +145,20 @@ love.graphics.print('Mouse Coordinates: ' .. mouse.x .. ', ' .. mouse.y..
             )
 
             for bulletIndex, bullet in ipairs(bullets) do
-                love.graphics.setColor(255, 255, 0)
-                love.graphics.setShader(effect)
+
+
                 love.graphics.circle('line', bullet.x, bullet.y, bulletRadius)
                  love.graphics.circle('line', bullet.a, bullet.b, bulletRadius)
-                love.graphics.setShader()
-            end
-            
+    
+          end
+          
+           love.graphics.setShader(effect)
             for asteroidIndex, asteroid in ipairs(asteroids) do
-                love.graphics.setColor(255, 255, 255)
+                --love.graphics.setColor(math.random(1,255), math.random(1,255),math.random(1,255))
+                --love.graphics.setColor(255,255,255)
                 love.graphics.circle('line', asteroid.x, asteroid.y, asteroidStages[asteroid.stage].radius)
             end
+            love.graphics.setShader()
         end
     end
 end

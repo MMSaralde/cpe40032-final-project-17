@@ -15,10 +15,8 @@ function ScoreState:update(dt)
       gStateMachine:change('title')
 end
 end
-
-
 function ScoreState:render()
-    love.graphics.clear(40, 45, 52, 255)
+    --love.graphics.clear(40, 45, 52, 255)
     love.graphics.setColor(255,255,255)
     love.graphics.setFont(hugeFont)
     love.graphics.printf('DEAD', 0, 200, 1280, 'center')
