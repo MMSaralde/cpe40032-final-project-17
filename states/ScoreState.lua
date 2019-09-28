@@ -22,10 +22,10 @@ function ScoreState:render()
     love.graphics.printf('DEAD', 0, 150, 1280, 'center')
 
     love.graphics.setFont(largeFont)
-    love.graphics.printf('Score: ' .. tostring(self.score), 0, 460, 1280, 'center')
-    love.graphics.printf('Time '..tostring(game_timer),0,100,1280,'center')
+    love.graphics.printf('Score: '.. tostring(self.score), 0, 460, 1280, 'center')
+    love.graphics.printf('Time: '..string.sub(tostring(game_timer),1,1),0,490,1280,'center')
     
     love.graphics.setFont(mediumFont)
-    love.graphics.printf('PRESS R TO RESTART', 0, 500, 1280, 'center')
-    love.graphics.printf('M FOR MENU, ESC TO GIVE UP', 0, 520, 1280, 'center')
+    love.graphics.printf('PRESS R TO RESTART', 0, 550, 1280, 'center')
+    love.graphics.printf('M FOR MENU, ESC TO GIVE UP', 0, 570, 1280, 'center')
 end

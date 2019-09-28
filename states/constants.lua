@@ -1,5 +1,5 @@
 Constants = Class{}
-
+  
 camera = Camera(x,y,1280,720)
 
 screen:setRotation(rotation)
@@ -44,7 +44,8 @@ bulletRadius = 5
 
 smallFont = love.graphics.newFont('font/font.ttf', 8)
 mediumFont = love.graphics.newFont('font/font.ttf', 16)
-largeFont = love.graphics.newFont('font/font.ttf', 32)
+largeFont = love.graphics.newFont('font/font.ttf', 30)
+tutorialFont = love.graphics.newFont('font/font.ttf', 80)
 hugeFont = love.graphics.newFont('font/font.ttf', 300)
 
  function reset()
@@ -67,12 +68,12 @@ hugeFont = love.graphics.newFont('font/font.ttf', 300)
                 y = WINDOW_HEIGHT - 100,
             },
             {
-                x = WINDOW_WIDTH - 100,
-                y = 100,
+                x = WINDOW_WIDTH -50,
+                y = 300,
             },
             {
-                x = WINDOW_WIDTH - 100,
-                y = 100,
+                x = WINDOW_WIDTH- 100,
+                y = 200,
             }
         }
         for asteroidIndex, asteroid in ipairs(asteroids) do
@@ -124,9 +125,61 @@ asteroidStages = {
         {
             speed = 200,
             radius = 80
+        },
+         {
+            speed = 100,
+            radius = 90
         }
     }
 
       
 effect = love.graphics.newShader [[extern number time;vec4 effect(vec4 color, Image texture, vec2 texture_coords,vec2          pixel_coords){return vec4((1.0+sin(time))/2.0, abs(cos(time)), abs(sin(time)), 1.0);}]]
-    
+
+
+function loadHighScores()
+    love.filesystem.setIdentity('50.50')
+
+    -- if the file doesn't exist, initialize it with some default scores
+    if not love.filesystem.exists('50.50.lst') then
+        local scores = ''
+        for i = 10, 1, -1 do
+            scores = scores .. 'Champions!\n'
+            scores = scores .. tostring(i * 1000) .. '\n'
+        end
+
+        love.filesystem.write('50.50.lst', scores)
+    end
+
+    -- flag for whether we're reading a name or not
+    local name = true
+    local currentName = nil
+    local counter = 1
+
+    -- initialize scores table with at least 10 blank entries
+    local scores = {}
+
+    for i = 1, 10 do
+        -- blank table; each will hold a name and a score
+        scores[i] = {
+            name = nil,
+            score = nil
+        }
+    end
+
+    -- iterate over each line in the file, filling in names and scores
+    for line in love.filesystem.lines('50.50.lst') do
+        if name then
+            scores[counter].name = string.sub(line, 1, 3)
+        else
+            scores[counter].score = tonumber(line)
+            counter = counter + 1
+        end
+
+        -- flip the name flag
+        name = not name
+    end
+
+    return scores
+end
+
+

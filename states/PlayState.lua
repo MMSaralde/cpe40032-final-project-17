@@ -7,25 +7,20 @@ function PlayState:init()
      t = 0
      game_timer = 0
     love.mouse.setVisible(false)
-    calamity_timer = 3
+    calamity_timer = 10
 end
 
 function PlayState:update(dt)
       t = t + dt
+      effect:send("time", t)
       calamity_timer = calamity_timer - dt
+      game_timer = game_timer + dt 
       
       if calamity_timer <= 0 then
-  --screen:rotate(360
-   screen:setShake(20)
-  screen:setRotation(.1)
-  
- -- screen:zoom(50)
- -- camera.rotation = math.pi/8
-  calamity_timer = 3
-end
-
-     game_timer = game_timer + dt 
-    effect:send("time", t)
+        calamity_timer = 10
+      end
+      
+   
     mouse.x, mouse.y = love.mouse.getPosition()
     shipAngle =  math.atan2(mouse.y-shipY, mouse.x-shipX) % (2 * math.pi)
     
@@ -98,10 +93,11 @@ end
         asteroid.x = (asteroid.x + math.cos(asteroid.angle) * asteroidStages[asteroid.stage].speed * dt) % WINDOW_WIDTH
         asteroid.y = (asteroid.y + math.sin(asteroid.angle) * asteroidStages[asteroid.stage].speed * dt) % WINDOW_HEIGHT
 
-        if areCirclesIntersecting(shipX, shipY, shipRadius, asteroid.x, asteroid.y, asteroidStages[asteroid.stage].radius) then
+
+       if areCirclesIntersecting(shipX, shipY, shipRadius, asteroid.x, asteroid.y, asteroidStages[asteroid.stage].radius) then
             camera:shake(8, 1, 60)
             gStateMachine:change('score', {
-                    score = self.score
+                  score = self.score
                 })
             break
         end
@@ -127,49 +123,53 @@ love.graphics.draw(cursor, mouse.x- cursor:getWidth() / 2, mouse.y- cursor:getHe
 --player sprite
 love.graphics.draw(player,shipX-16,shipY-16)
 
-
 --UI
 love.graphics.setFont(mediumFont)
 love.graphics.print('Mouse Coordinates: ' .. mouse.x .. ', ' .. mouse.y..
-  '     Turret Angle: '..shipAngle..
   '     FPS: '..tostring(love.timer.getFPS())..
-  '     Score: '..tostring(score)..
-   '     calamity_timer: '..tostring(calamity_timer)..
-  '     game_timer: '..tostring(game_timer))
+  '     Calamity: '..string.sub(tostring(calamity_timer),1,1)..
+  '     Score: '..string.sub(tostring(score),1,1)..
+  '     Time: '..string.sub(tostring(game_timer),1,1))
 --player circle
     for y = -1, 1 do
         for x = -1, 1 do
             love.graphics.origin()
             love.graphics.translate(x * WINDOW_WIDTH, y * WINDOW_HEIGHT)
-            love.graphics.setColor(255,255,255)
+            love.graphics.setColor(255,0,127)
             love.graphics.circle('line', shipX, shipY, shipRadius)
-            --love.graphics.reset()
+            love.graphics.reset()
 --player turret
             local shipCircleDistance = 30
+            love.graphics.setColor(113,238,184)
             love.graphics.circle(
                 'line',
                 shipX + math.cos(shipAngle) * shipCircleDistance,
                 shipY + math.sin(shipAngle) * shipCircleDistance,
                 5
             )
-
+            love.graphics.reset()
+            love.graphics.setColor(255,191,0)
             love.graphics.circle(
                 'line',
                 shipX - math.cos(shipAngle) * shipCircleDistance,
                 shipY - math.sin(shipAngle) * shipCircleDistance,
                 5
             )
---bullet
+            love.graphics.reset()
+            --bullet
             for bulletIndex, bullet in ipairs(bullets) do
+              love.graphics.setColor(113,238,184)
                 love.graphics.circle('line', bullet.x, bullet.y, bulletRadius)
+                love.graphics.setColor(255,191,0)
                  love.graphics.circle('line', bullet.a, bullet.b, bulletRadius)
-                 end
+                 love.graphics.reset()
+               end
           --enemies
-          --love.graphics.setShader(effect)
+          love.graphics.setShader(effect)
             for asteroidIndex, asteroid in ipairs(asteroids) do
                 love.graphics.circle('line', asteroid.x, asteroid.y, asteroidStages[asteroid.stage].radius)
             end
-            --love.graphics.reset()
+            love.graphics.reset()
         end
     end
 end
