@@ -21,6 +21,7 @@ function love.load()
 end
 
 function love.update(dt)
+          gSounds['bg_music']:play()
           camera:update(dt)
           screen:update(dt)
           --snow_system:update(dt)

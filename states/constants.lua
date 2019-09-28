@@ -32,7 +32,7 @@ BACKGROUND_LOOPING_POINT = 480
 --BACKGROUND_LOOPING_POINT_Y = -480
 --BACKGROUND_SCROLL_SPEED_Y = -30
 
-player = love.graphics.newImage('graphics/player_2.png')
+player = love.graphics.newImage('graphics/player_3.png')
 cursor = love.graphics.newImage('graphics/crosshair.png')
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
@@ -47,6 +47,11 @@ mediumFont = love.graphics.newFont('font/font.ttf', 16)
 largeFont = love.graphics.newFont('font/font.ttf', 30)
 tutorialFont = love.graphics.newFont('font/font.ttf', 80)
 hugeFont = love.graphics.newFont('font/font.ttf', 300)
+
+gSounds = {
+        ['bg_music'] = love.audio.newSource('sounds/bg_1.ogg'),
+        ['hit'] = love.audio.newSource('sounds/hit.ogg')
+    }
 
  function reset()
         shipX = WINDOW_WIDTH / 2
@@ -134,7 +139,6 @@ asteroidStages = {
 
       
 effect = love.graphics.newShader [[extern number time;vec4 effect(vec4 color, Image texture, vec2 texture_coords,vec2          pixel_coords){return vec4((1.0+sin(time))/2.0, abs(cos(time)), abs(sin(time)), 1.0);}]]
-
 
 function loadHighScores()
     love.filesystem.setIdentity('50.50')

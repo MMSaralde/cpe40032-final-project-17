@@ -66,6 +66,7 @@ function PlayState:update(dt)
                 table.remove(bullets, bulletIndex)
                 self.score = self.score + 1
                 score = self.score + 1
+                gSounds['hit']:play()
 
                 if asteroid.stage > 1 then
                     local angle1 = love.math.random() * (2 * math.pi)
@@ -136,6 +137,7 @@ love.graphics.print('Mouse Coordinates: ' .. mouse.x .. ', ' .. mouse.y..
             love.graphics.origin()
             love.graphics.translate(x * WINDOW_WIDTH, y * WINDOW_HEIGHT)
             love.graphics.setColor(255,0,127)
+            --love.graphics.setShader(effect)
             love.graphics.circle('line', shipX, shipY, shipRadius)
             love.graphics.reset()
 --player turret
@@ -166,6 +168,7 @@ love.graphics.print('Mouse Coordinates: ' .. mouse.x .. ', ' .. mouse.y..
                end
           --enemies
           love.graphics.setShader(effect)
+          --love.graphics.setColor(0,0,0)
             for asteroidIndex, asteroid in ipairs(asteroids) do
                 love.graphics.circle('line', asteroid.x, asteroid.y, asteroidStages[asteroid.stage].radius)
             end

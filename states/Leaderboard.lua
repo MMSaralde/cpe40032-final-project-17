@@ -14,7 +14,7 @@ function Leaderboard:update(dt)
 end
 
 function Leaderboard:render()
-    love.graphics.printf('High Scores', 0, 20, WINDOW_WIDTH, 'center')
+    love.graphics.printf('Leaderboard:', 0, 20, WINDOW_WIDTH, 'center')
     for i = 1, 10 do
         local name = self.highScores[i].name or '---'
         local score = self.highScores[i].score or '---'
