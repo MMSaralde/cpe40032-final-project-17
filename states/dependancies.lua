@@ -5,8 +5,6 @@ screen = require "lib/shack"
 
 
 require 'states/constants'
-require 'states/Leaderboard'
-require 'states/enterLeaderboard'
 require 'lib/StateMachine'
 require 'states/BaseState'
 require 'states/CountdownState'

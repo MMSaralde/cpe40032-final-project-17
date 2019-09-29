@@ -9,13 +9,9 @@ function love.load()
         ['countdown'] = function() return CountdownState() end,
         ['play'] = function() return PlayState() end,
         ['score'] = function() return ScoreState() end,
-        ['tutorial'] = function() return TutorialState() end,
-        ['leaderboard'] = function() return Leaderboard() end,
-        ['enterleaderboard'] = function() return enterLeaderboard() end
+        ['tutorial'] = function() return TutorialState() end
     }
-   gStateMachine:change('title', {
-        highScores = loadHighScores()
-    })
+   gStateMachine:change('title')
     reset()
 end
 
@@ -24,6 +20,7 @@ function love.update(dt)
           camera:update(dt)
           screen:update(dt)
           --snow_system:update(dt)
+          
      if love.keyboard.isDown('d') then
  backgroundScroll = (backgroundScroll + BACKGROUND_SCROLL_SPEED * dt) 
         % BACKGROUND_LOOPING_POINT

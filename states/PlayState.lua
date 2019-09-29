@@ -7,18 +7,12 @@ function PlayState:init()
      t = 0
      game_timer = 0
     love.mouse.setVisible(false)
-    calamity_timer = 10
 end
 
 function PlayState:update(dt)
       t = t + dt
       effect:send("time", t)
-      calamity_timer = calamity_timer - dt
       game_timer = game_timer + dt 
-      
-      if calamity_timer <= 0 then
-        calamity_timer = 10
-      end
       
    
     mouse.x, mouse.y = love.mouse.getPosition()
@@ -93,13 +87,8 @@ function PlayState:update(dt)
     for asteroidIndex, asteroid in ipairs(asteroids) do
         asteroid.x = (asteroid.x + math.cos(asteroid.angle) * asteroidStages[asteroid.stage].speed * dt) % WINDOW_WIDTH
         asteroid.y = (asteroid.y + math.sin(asteroid.angle) * asteroidStages[asteroid.stage].speed * dt) % WINDOW_HEIGHT
-
-      if areCirclesIntersecting(shipX, shipY, shipRadius, asteroid.x, asteroid.y, asteroidStages[asteroid.stage].radius) and self.score >= 2 and game_timer >= 2 then
-         gStateMachine:change('enterleaderboard', {
-                  score = self.score*9999
-                })break
            
-       elseif areCirclesIntersecting(shipX, shipY, shipRadius, asteroid.x, asteroid.y, asteroidStages[asteroid.stage].radius) then
+       if areCirclesIntersecting(shipX, shipY, shipRadius, asteroid.x, asteroid.y, asteroidStages[asteroid.stage].radius) then
             camera:shake(8, 1, 60)
             gStateMachine:change('score', {
                   score = self.score
@@ -132,7 +121,6 @@ love.graphics.draw(player,shipX-16,shipY-16)
 love.graphics.setFont(mediumFont)
 love.graphics.print('Mouse Coordinates: ' .. mouse.x .. ', ' .. mouse.y..
   '     FPS: '..tostring(love.timer.getFPS())..
-  '     Calamity: '..string.sub(tostring(calamity_timer),1,1)..
   '     Score: '..(tostring(score))..
   '     Time: '..string.sub(tostring(game_timer),1,1))
 --player circle
