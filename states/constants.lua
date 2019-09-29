@@ -147,8 +147,8 @@ function loadHighScores()
     if not love.filesystem.exists('50.50.lst') then
         local scores = ''
         for i = 10, 1, -1 do
-            scores = scores .. 'Champions!\n'
-            scores = scores .. tostring(i * 1000) .. '\n'
+            scores = scores .. 'cto\n'
+            scores = scores .. tostring(i) .. '\n'
         end
 
         love.filesystem.write('50.50.lst', scores)

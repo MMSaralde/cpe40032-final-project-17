@@ -9,12 +9,11 @@ function ScoreState:update(dt)
     if love.keyboard.isDown('R') or love.keyboard.isDown('r') then
         gStateMachine:change('play')
         reset()
-    end
-    
-    if love.keyboard.isDown('M') or love.keyboard.isDown('m') then
+    elseif love.keyboard.isDown('M') or love.keyboard.isDown('m') then
       gStateMachine:change('title')
 end
 end
+
 function ScoreState:render()
     --love.graphics.clear(40, 45, 52, 255)
     love.graphics.setColor(255,255,255)

@@ -1,6 +1,5 @@
 Class = require 'lib/class'
 require 'states/dependancies'
-
 function love.load()
   love.window.setMode(WINDOW_WIDTH,WINDOW_HEIGHT)
   love.window.setTitle('50/50      Press Esc to quit anytime!')
@@ -11,8 +10,8 @@ function love.load()
         ['play'] = function() return PlayState() end,
         ['score'] = function() return ScoreState() end,
         ['tutorial'] = function() return TutorialState() end,
-        ['leaderboard'] = function() return Leaderboard() end
-        --['enterleaderboard'] = function() return enterLeaderboard() end
+        ['leaderboard'] = function() return Leaderboard() end,
+        ['enterleaderboard'] = function() return enterLeaderboard() end
     }
    gStateMachine:change('title', {
         highScores = loadHighScores()

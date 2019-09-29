@@ -1,8 +1,7 @@
 TitleScreenState = Class{__includes = BaseState}
 
 function TitleScreenState:init()
-       --screen:setScale(1280,720)
-       --screen:setRotation(190)
+      -- screen:setScale(300,200)
 end
 
 function TitleScreenState:update(dt)

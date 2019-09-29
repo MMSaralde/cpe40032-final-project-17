@@ -34,7 +34,7 @@ function enterLeaderboard:update(dt)
 
         -- write scores to file
         local scoresStr = ''
-
+        
         for i = 1, 10 do
             scoresStr = scoresStr .. self.highScores[i].name .. '\n'
             scoresStr = scoresStr .. tostring(self.highScores[i].score) .. '\n'
