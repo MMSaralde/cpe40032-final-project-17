@@ -14,7 +14,7 @@ function PlayState:update(dt)
       effect:send("time", t)
       game_timer = game_timer + dt 
       
-   
+
     mouse.x, mouse.y = love.mouse.getPosition()
     shipAngle =  math.atan2(mouse.y-shipY, mouse.x-shipX) % (2 * math.pi)
     
@@ -87,8 +87,12 @@ function PlayState:update(dt)
     for asteroidIndex, asteroid in ipairs(asteroids) do
         asteroid.x = (asteroid.x + math.cos(asteroid.angle) * asteroidStages[asteroid.stage].speed * dt) % WINDOW_WIDTH
         asteroid.y = (asteroid.y + math.sin(asteroid.angle) * asteroidStages[asteroid.stage].speed * dt) % WINDOW_HEIGHT
+
+      if areCirclesIntersecting(shipX, shipY, shipRadius, asteroid.x, asteroid.y, asteroidStages[asteroid.stage].radius) and self.score >= 2 and game_timer >= 2 then
+         gStateMachine:change('enterleaderboard', {
+                })break
            
-       if areCirclesIntersecting(shipX, shipY, shipRadius, asteroid.x, asteroid.y, asteroidStages[asteroid.stage].radius) then
+       elseif areCirclesIntersecting(shipX, shipY, shipRadius, asteroid.x, asteroid.y, asteroidStages[asteroid.stage].radius) then
             camera:shake(8, 1, 60)
             gStateMachine:change('score', {
                   score = self.score
