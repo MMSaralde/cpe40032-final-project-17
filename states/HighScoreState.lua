@@ -1,20 +1,23 @@
-Leaderboard= Class{__includes = BaseState}
+HighScoreState = Class{__includes = BaseState}
 
-function Leaderboard:enter(params)
-    self.highScores = params.highScores
-end
-function Leaderboard:exit()
+function HighScoreState:enter(params)
+   self.highScores = params.highScores
 end
 
-function Leaderboard:update(dt)
-
+function HighScoreState:update(dt)
+    -- return to the start screen if we press escape
     if love.keyboard.isDown('space') then
-        gStateMachine:change('title')
+        gStateMachine:change('title', {
+            highScores = self.highScores
+        })
     end
 end
 
-function Leaderboard:render()
-    love.graphics.printf('High Scores', 0, 20, WINDOW_WIDTH, 'center')
+function HighScoreState:render()
+  love.graphics.printf('LEADERBOARD', 0, 20, WINDOW_WIDTH, 'center')
+
+
+
     -- iterate over all high score indices in our high scores table
     for i = 1, 10 do
         local name = self.highScores[i].name or '---'

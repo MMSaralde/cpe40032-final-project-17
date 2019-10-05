@@ -1,12 +1,23 @@
 TutorialState = Class{__includes = BaseState}
 
+function TutorialState:enter(params)
+   self.highScores = params.highScores
+ end
+ 
+ function TutorialState:exit()
+ end
+ 
+ 
 function TutorialState:init()
+  
 end
 
 function TutorialState:update(dt)
     --love.graphics.setColor(255,0,0,50)
   if love.keyboard.isDown('space') then
-    gStateMachine:change('title')
+   gStateMachine:change('title', {
+            highScores = self.highScores
+        })
   end
 end
 
@@ -22,8 +33,6 @@ function TutorialState:render()
     love.graphics.printf('shoot: left mouse',0, 350, WINDOW_WIDTH, 'center')
     love.graphics.printf('teleport: space',0, 400, WINDOW_WIDTH, 'center')
     
-    love.graphics.printf('PROTIP: HIT THE SMALLEST FIRST, OR JUST SPAM SHOOT YOU DO YOU.',0, 500, WINDOW_WIDTH, 'center')
+    love.graphics.printf('TIP: HIT THE SMALLEST FIRST!',0, 500, WINDOW_WIDTH, 'center')
     love.graphics.printf('press space to return',0, 600, WINDOW_WIDTH, 'center')
-    --[[love.graphics.printf('w,a,s,d = controls     mouse.left = fire      space =  teleport to cursor      goal : get a score and time of 50    always hit the smallest first, or just spam left mouse u do you', 0, 150, WINDOW_WIDTH, 'center')
-    love.graphics.printf('space = title', 0, 500, WINDOW_WIDTH ,'center')]]--
 end

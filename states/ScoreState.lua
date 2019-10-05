@@ -2,16 +2,53 @@ ScoreState = Class{__includes = BaseState}
 
 function ScoreState:enter(params)
     self.score = params.score
-     love.mouse.setVisible(true)
+    self.highScores = params.highScores
 end
+
+
+function ScoreState:init()
+      love.mouse.setVisible(true)
+    end
+    
+
+function ScoreState:exit()
+end
+
 
 function ScoreState:update(dt)
     if love.keyboard.isDown('R') or love.keyboard.isDown('r') then
         gStateMachine:change('play')
         reset()
     elseif love.keyboard.isDown('M') or love.keyboard.isDown('m') then
-      gStateMachine:change('title')
-end
+      --gStateMachine:change('title')
+      
+      local highScore = false
+        
+        -- keep track of what high score ours overwrites, if any
+        local scoreIndex = 11
+
+        for i = 10, 1, -1 do
+            local score = self.highScores[i].score or 0
+            if self.score > score then
+                highScoreIndex = i
+                highScore = true
+            end
+        end
+
+        if highScore then
+            gStateMachine:change('enterhighscore', {
+                highScores = self.highScores,
+                score = self.score,
+                scoreIndex = highScoreIndex
+            }) 
+        else 
+            gStateMachine:change('title', {
+                highScores = self.highScores
+            }) 
+        end
+    end
+      
+      
 end
 
 function ScoreState:render()

@@ -1,4 +1,4 @@
-enterLeaderboard = Class{__includes = BaseState}
+EnterHighScoreState = Class{__includes = BaseState}
 
 -- individual chars of our string
 local chars = {
@@ -10,16 +10,18 @@ local chars = {
 -- char we're currently changing
 local highlightedChar = 1
 
-function enterLeaderboard:enter(params)
+function EnterHighScoreState:enter(params)
     self.highScores = params.highScores
     self.score = params.score
     self.scoreIndex = params.scoreIndex
+    
 end
 
-function enterLeaderboard:exit()
+function EnterHighScoreState:exit()
 end
 
-function enterLeaderboard:update(dt)
+
+function EnterHighScoreState:update(dt)
     if love.keyboard.isDown('enter') or love.keyboard.isDown('return') then
         -- update scores table
         local name = string.char(chars[1]) .. string.char(chars[2]) .. string.char(chars[3])
@@ -37,15 +39,15 @@ function enterLeaderboard:update(dt)
 
         -- write scores to file
         local scoresStr = ''
-        
+
         for i = 1, 10 do
             scoresStr = scoresStr .. self.highScores[i].name .. '\n'
             scoresStr = scoresStr .. tostring(self.highScores[i].score) .. '\n'
         end
 
-        love.filesystem.write('50.50', scoresStr)
+        love.filesystem.write('5050.lst', scoresStr)
 
-        gStateMachine:change('leaderboard', {
+        gStateMachine:change('highscore', {
             highScores = self.highScores
         })
     end
@@ -71,9 +73,9 @@ function enterLeaderboard:update(dt)
     end
 end
 
-function enterLeaderboard:render()
+function EnterHighScoreState:render()
     love.graphics.printf('Your score: ' .. tostring(self.score), 0, 30,
-       WINDOW_WIDTH, 'center')
+        WINDOW_WIDTH, 'center')
 
     
     --
@@ -82,21 +84,21 @@ function enterLeaderboard:render()
     if highlightedChar == 1 then
         love.graphics.setColor(103, 255, 255, 255)
     end
-    love.graphics.print(string.char(chars[1]),WINDOW_WIDTH / 2 - 28, WINDOW_HEIGHT / 2)
+    love.graphics.print(string.char(chars[1]), WINDOW_WIDTH / 2 - 28, WINDOW_HEIGHT / 2)
     love.graphics.setColor(255, 255, 255, 255)
 
     if highlightedChar == 2 then
         love.graphics.setColor(103, 255, 255, 255)
     end
-    love.graphics.print(string.char(chars[2]),WINDOW_WIDTH / 2 - 6, WINDOW_WIDTH / 2)
+    love.graphics.print(string.char(chars[2]), WINDOW_WIDTH / 2 - 6, WINDOW_HEIGHT / 2)
     love.graphics.setColor(255, 255, 255, 255)
 
     if highlightedChar == 3 then
         love.graphics.setColor(103, 255, 255, 255)
     end
-    love.graphics.print(string.char(chars[3]),WINDOW_WIDTH / 2 + 20, WINDOW_WIDTH / 2)
+    love.graphics.print(string.char(chars[3]), WINDOW_WIDTH / 2 + 20, WINDOW_HEIGHT / 2)
     love.graphics.setColor(255, 255, 255, 255)
     
-    love.graphics.printf('Press Enter to confirm!', 0, WINDOW_WIDTH - 18,
-       WINDOW_WIDTH, 'center')
+    love.graphics.printf('Press Enter to confirm!', 0, WINDOW_HEIGHT - 18,
+        WINDOW_WIDTH, 'center')
 end

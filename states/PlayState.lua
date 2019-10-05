@@ -1,11 +1,19 @@
 PlayState = Class{__includes = BaseState}
 
+function PlayState:enter(params)
+    self.score = params.score
+    self.highScores = params.highScores
+end
+
+function PlayState:exit()
+end
+
 function PlayState:init()
     reset()
-     self.score = 0
-     score = 0
-     t = 0
-     game_timer = 0
+    self.score = 0
+    score = 0
+    t = 0
+    game_timer = 0
     love.mouse.setVisible(false)
 end
 
@@ -14,7 +22,7 @@ function PlayState:update(dt)
       effect:send("time", t)
       game_timer = game_timer + dt 
       
-
+   
     mouse.x, mouse.y = love.mouse.getPosition()
     shipAngle =  math.atan2(mouse.y-shipY, mouse.x-shipX) % (2 * math.pi)
     
@@ -87,43 +95,37 @@ function PlayState:update(dt)
     for asteroidIndex, asteroid in ipairs(asteroids) do
         asteroid.x = (asteroid.x + math.cos(asteroid.angle) * asteroidStages[asteroid.stage].speed * dt) % WINDOW_WIDTH
         asteroid.y = (asteroid.y + math.sin(asteroid.angle) * asteroidStages[asteroid.stage].speed * dt) % WINDOW_HEIGHT
-
-      if areCirclesIntersecting(shipX, shipY, shipRadius, asteroid.x, asteroid.y, asteroidStages[asteroid.stage].radius) and self.score >= 2 and game_timer >= 2 then
-         gStateMachine:change('enterleaderboard', {
-                })break
            
-       elseif areCirclesIntersecting(shipX, shipY, shipRadius, asteroid.x, asteroid.y, asteroidStages[asteroid.stage].radius) then
+       if areCirclesIntersecting(shipX, shipY, shipRadius, asteroid.x, asteroid.y, asteroidStages[asteroid.stage].radius) then
             camera:shake(8, 1, 60)
             gStateMachine:change('score', {
-                  score = self.score
+                  score = self.score,
+                  highScores = self.highScores
                 })
             break
         end
     end
     
-   if #asteroids >= 30 then
+   if #asteroids >= 50 then
       table.remove(asteroids,asteroidIndex)
     end
     
   if #asteroids == 0 then
        -- reset()
-     gStateMachine:change('score', {
-                   score = self.score
+     gStateMachine:change('enterhighscore', {
+                   score = self.score,
+                   highScores = self.highScores
                 })
     end
-    
 end
 
 
 function PlayState:render()
-  --crosshair
-love.graphics.draw(cursor, mouse.x- cursor:getWidth() / 2, mouse.y- cursor:getHeight() / 2)
---player sprite
-love.graphics.draw(player,shipX-16,shipY-16)
+  love.graphics.draw(cursor, mouse.x- cursor:getWidth() / 2, mouse.y- cursor:getHeight() / 2)
+  love.graphics.draw(player,shipX-16,shipY-16)
 
---UI
-love.graphics.setFont(mediumFont)
-love.graphics.print('Mouse Coordinates: ' .. mouse.x .. ', ' .. mouse.y..
+  love.graphics.setFont(mediumFont)
+  love.graphics.print('Mouse Coordinates: ' .. mouse.x .. ', ' .. mouse.y..
   '     FPS: '..tostring(love.timer.getFPS())..
   '     Score: '..(tostring(score))..
   '     Time: '..string.sub(tostring(game_timer),1,1))
@@ -164,7 +166,6 @@ love.graphics.print('Mouse Coordinates: ' .. mouse.x .. ', ' .. mouse.y..
                end
           --enemies
           love.graphics.setShader(effect)
-          --love.graphics.setColor(0,0,0)
             for asteroidIndex, asteroid in ipairs(asteroids) do
                 love.graphics.circle('line', asteroid.x, asteroid.y, asteroidStages[asteroid.stage].radius)
             end
