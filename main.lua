@@ -14,14 +14,14 @@ function love.load()
         ['highscore'] = function() return HighScoreState() end,
         ['enterhighscore'] = function() return EnterHighScoreState() end
     }
-  gStateMachine:change('highscore', {
+  gStateMachine:change('title', {
         highScores = loadHighScores()
     })
     reset()
 end
 
 function love.update(dt)
-          --gSounds['bg_music']:play()
+          gSounds['bg_3']:play()
           camera:update(dt)
           screen:update(dt)
           --snow_system:update(dt)

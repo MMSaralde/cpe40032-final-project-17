@@ -3,6 +3,7 @@ ScoreState = Class{__includes = BaseState}
 function ScoreState:enter(params)
     self.score = params.score
     self.highScores = params.highScores
+    self.time = params.time
 end
 
 
@@ -35,7 +36,8 @@ function ScoreState:update(dt)
             gStateMachine:change('enterhighscore', {
                 highScores = self.highScores,
                 score = self.score,
-                scoreIndex = highScoreIndex
+                scoreIndex = highScoreIndex,
+                time = self.time
             }) 
         else 
             gStateMachine:change('title', {
@@ -55,7 +57,7 @@ function ScoreState:render()
 
     love.graphics.setFont(largeFont)
     love.graphics.printf('Score: '.. tostring(self.score), 0, 460, 1280, 'center')
-    love.graphics.printf('Time: '..string.sub(tostring(game_timer),1,1),0,490,1280,'center')
+    love.graphics.printf('Time: '..string.sub(tostring(time),1,1),0,490,1280,'center')
     
     love.graphics.setFont(mediumFont)
     love.graphics.printf('PRESS R TO RESTART', 0, 550, 1280, 'center')

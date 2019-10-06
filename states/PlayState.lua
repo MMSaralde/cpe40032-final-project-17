@@ -3,6 +3,7 @@ PlayState = Class{__includes = BaseState}
 function PlayState:enter(params)
     self.score = params.score
     self.highScores = params.highScores
+    self.time = params.time
 end
 
 
@@ -11,15 +12,20 @@ function PlayState:init()
     self.score = 0
     score = 0
     t = 0
-    game_timer = 0
+    time = 0
     love.mouse.setVisible(false)
+    calamity_timer = 10
 end
 
 function PlayState:update(dt)
       t = t + dt
       effect:send("time", t)
-      game_timer = game_timer + dt 
+      time = time + dt 
+      calamity_timer = calamity_timer - dt
       
+     if calamity_timer <= 0 then
+        calamity_timer = 10
+      end
    
     mouse.x, mouse.y = love.mouse.getPosition()
     shipAngle =  math.atan2(mouse.y-shipY, mouse.x-shipX) % (2 * math.pi)
@@ -51,7 +57,7 @@ function PlayState:update(dt)
         if bullet.timeLeft <= 0 then
             table.remove(bullets, bulletIndex)
         else
-            local bulletSpeed = 600
+            local bulletSpeed = 900
             bullet.x = (bullet.x + math.cos(bullet.angle) * bulletSpeed * dt) % WINDOW_WIDTH
             bullet.y = (bullet.y + math.sin(bullet.angle) * bulletSpeed * dt) % WINDOW_HEIGHT
             
@@ -99,7 +105,8 @@ function PlayState:update(dt)
             camera:shake(8, 1, 60)
             gStateMachine:change('score', {
                   score = self.score,
-                  highScores = loadHighScores()
+                  highScores = loadHighScores(),
+                  time = self.time
                 })
             break
         end
@@ -113,7 +120,8 @@ function PlayState:update(dt)
        -- reset()
      gStateMachine:change('enterhighscore', {
                    score = self.score,
-                   highScores = self.highScores
+                   highScores = self.highScores,
+                   time = self.time
                 })
     end
 end
@@ -127,13 +135,15 @@ function PlayState:render()
   love.graphics.print('Mouse Coordinates: ' .. mouse.x .. ', ' .. mouse.y..
   '     FPS: '..tostring(love.timer.getFPS())..
   '     Score: '..(tostring(score))..
-  '     Time: '..string.sub(tostring(game_timer),1,1))
+  '     Time: '..string.sub(tostring(time),1,1)..
+  '     Calamity: '..string.sub(tostring(calamity_timer),1,1))
 --player circle
     for y = -1, 1 do
         for x = -1, 1 do
             love.graphics.origin()
             love.graphics.translate(x * WINDOW_WIDTH, y * WINDOW_HEIGHT)
-            love.graphics.setColor(255,0,127)
+            --love.graphics.setColor(255,0,127)
+            love.graphics.setColor(math.random(0,255),math.random(0,255),math.random(0,255),math.random(0,255))
             --love.graphics.setShader(effect)
             love.graphics.circle('line', shipX, shipY, shipRadius)
             love.graphics.reset()

@@ -1,6 +1,9 @@
 Constants = Class{}
+
+WINDOW_WIDTH = 1280
+WINDOW_HEIGHT = 720
   
-camera = Camera(x,y,1280,720)
+camera = Camera(x,y,WINDOW_WIDTH,WINDOW_HEIGHT)
 
 screen:setRotation(rotation)
 screen:setShear(x, y)
@@ -29,13 +32,9 @@ backgroundScroll = 0
 BACKGROUND_SCROLL_SPEED = 500
 BACKGROUND_LOOPING_POINT = 480
 
---BACKGROUND_LOOPING_POINT_Y = -480
---BACKGROUND_SCROLL_SPEED_Y = -30
 
 player = love.graphics.newImage('graphics/player_3.png')
 cursor = love.graphics.newImage('graphics/crosshair.png')
-WINDOW_WIDTH = 1280
-WINDOW_HEIGHT = 720
 
 mouse.x, mouse.y = love.mouse.getPosition()
 
@@ -50,7 +49,9 @@ hugeFont = love.graphics.newFont('font/font.ttf', 300)
 
 gSounds = {
         ['bg_music'] = love.audio.newSource('sounds/bg_1.ogg'),
-        ['hit'] = love.audio.newSource('sounds/hit.ogg')
+        ['hit'] = love.audio.newSource('sounds/hit.ogg'),
+        ['count'] = love.audio.newSource('sounds/countdown.wav'),
+        ['bg_3'] = love.audio.newSource('sounds/bg_3.mp3')
     }
 
  function reset()
@@ -91,11 +92,16 @@ gSounds = {
 function love.keypressed(key)
    if key=='escape' then 
      love.event.quit()
+     
+     --elseif key == 'f' then
+       -- camera:fade(1, {0, 0, 0, 0})
       elseif key == 'space' then 
         shipX = mouse.x
         shipY = mouse.y
-      end
     end
+  end
+  
+
     
 function love.mousepressed( x, y, button, istouch, presses )
   if button == 1 then
@@ -145,8 +151,8 @@ function loadHighScores()
     if not love.filesystem.exists('5050.lst') then
         local scores = ''
         for i = 10, 1, -1 do
-            scores = scores .. 'xyz\n'
-            scores = scores .. tostring(i * 1) .. '\n'
+            scores = scores .. 'QWE\n'
+            scores = scores .. tostring(i * 1) .. '\n'  
         end
         love.filesystem.write('5050.lst', scores)
     end

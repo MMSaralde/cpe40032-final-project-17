@@ -23,7 +23,7 @@ function TutorialState:render()
     --love.graphics.clear(40, 45, 52, 255)
     --love.graphics.setColor(255,255,255,150)
     love.graphics.setFont(tutorialFont)
-    love.graphics.printf('GOAL: GET A TIME AND SCORE OF 50! ',0, 30, WINDOW_WIDTH, 'center')
+    love.graphics.printf('GOAL: DESTROY ALL THE CIRCLES! ',0, 30, WINDOW_WIDTH, 'center')
     
     love.graphics.setFont(largeFont)
      love.graphics.printf('controls',0, 250, WINDOW_WIDTH, 'center')
