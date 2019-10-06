@@ -139,3 +139,37 @@ asteroidStages = {
 
       
 effect = love.graphics.newShader [[extern number time;vec4 effect(vec4 color, Image texture, vec2 texture_coords,vec2          pixel_coords){return vec4((1.0+sin(time))/2.0, abs(cos(time)), abs(sin(time)), 1.0);}]]
+
+function loadHighScores()
+    love.filesystem.setIdentity('5050')
+    if not love.filesystem.exists('5050.lst') then
+        local scores = ''
+        for i = 10, 1, -1 do
+            scores = scores .. 'xyz\n'
+            scores = scores .. tostring(i * 1) .. '\n'
+        end
+        love.filesystem.write('5050.lst', scores)
+    end
+    local name = true
+    local currentName = nil
+    local counter = 1
+
+    local scores = {}
+
+    for i = 1, 10 do
+        scores[i] = {
+            name = nil,
+            score = nil
+        }
+    end
+    for line in love.filesystem.lines('5050.lst') do
+        if name then
+            scores[counter].name = string.sub(line, 1, 3)
+        else
+            scores[counter].score = tonumber(line)
+            counter = counter + 1
+        end
+        name = not name
+    end
+    return scores
+end

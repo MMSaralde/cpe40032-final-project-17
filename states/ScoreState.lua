@@ -21,12 +21,8 @@ function ScoreState:update(dt)
         reset()
     elseif love.keyboard.isDown('M') or love.keyboard.isDown('m') then
       --gStateMachine:change('title')
-      
       local highScore = false
-        
-        -- keep track of what high score ours overwrites, if any
         local scoreIndex = 11
-
         for i = 10, 1, -1 do
             local score = self.highScores[i].score or 0
             if self.score > score then

@@ -9,7 +9,7 @@ function TitleScreenState:enter(params)
   
   
 function TitleScreenState:init()
-      -- screen:setScale(300,200)
+      --screen:setScale(300,200)
 end
 
 function TitleScreenState:update(dt)

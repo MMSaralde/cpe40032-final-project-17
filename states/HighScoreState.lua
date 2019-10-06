@@ -5,7 +5,6 @@ function HighScoreState:enter(params)
 end
 
 function HighScoreState:update(dt)
-    -- return to the start screen if we press escape
     if love.keyboard.isDown('space') then
         gStateMachine:change('title', {
             highScores = self.highScores
@@ -15,8 +14,6 @@ end
 
 function HighScoreState:render()
   love.graphics.printf('LEADERBOARD', 0, 20, WINDOW_WIDTH, 'center')
-
-
 
     -- iterate over all high score indices in our high scores table
     for i = 1, 10 do
@@ -36,6 +33,6 @@ function HighScoreState:render()
             60 + i * 13, 100, 'right')
     end
 
-    love.graphics.printf("Press space to return to the main menu!",
+    love.graphics.printf("Press SPACE to return to the main menu!",
         0, WINDOW_HEIGHT - 18, WINDOW_WIDTH, 'center')
 end

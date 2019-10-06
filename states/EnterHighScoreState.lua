@@ -14,7 +14,6 @@ function EnterHighScoreState:enter(params)
     self.highScores = params.highScores
     self.score = params.score
     self.scoreIndex = params.scoreIndex
-    
 end
 
 function EnterHighScoreState:exit()
@@ -74,17 +73,16 @@ function EnterHighScoreState:update(dt)
 end
 
 function EnterHighScoreState:render()
-    love.graphics.printf('Your score: ' .. tostring(self.score), 0, 30,
+      love.graphics.setFont(mediumFont)
+    love.graphics.printf('Your score: ' .. tostring(self.score), 0, 50,
         WINDOW_WIDTH, 'center')
-
-    
     --
     -- render all three characters of the name
-    --
+    love.graphics.setFont(largeFont)
     if highlightedChar == 1 then
         love.graphics.setColor(103, 255, 255, 255)
     end
-    love.graphics.print(string.char(chars[1]), WINDOW_WIDTH / 2 - 28, WINDOW_HEIGHT / 2)
+    love.graphics.print(string.char(chars[1]), WINDOW_WIDTH / 2 - 28 -24, WINDOW_HEIGHT / 2)
     love.graphics.setColor(255, 255, 255, 255)
 
     if highlightedChar == 2 then
@@ -96,9 +94,10 @@ function EnterHighScoreState:render()
     if highlightedChar == 3 then
         love.graphics.setColor(103, 255, 255, 255)
     end
-    love.graphics.print(string.char(chars[3]), WINDOW_WIDTH / 2 + 20, WINDOW_HEIGHT / 2)
+    love.graphics.print(string.char(chars[3]), WINDOW_WIDTH / 2 + 20 +20, WINDOW_HEIGHT / 2)
     love.graphics.setColor(255, 255, 255, 255)
+    love.graphics.reset()
     
-    love.graphics.printf('Press Enter to confirm!', 0, WINDOW_HEIGHT - 18,
+    love.graphics.printf('Press Enter to confirm!', 0, WINDOW_HEIGHT - 100,
         WINDOW_WIDTH, 'center')
 end

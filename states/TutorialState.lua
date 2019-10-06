@@ -7,9 +7,7 @@ function TutorialState:enter(params)
  function TutorialState:exit()
  end
  
- 
 function TutorialState:init()
-  
 end
 
 function TutorialState:update(dt)

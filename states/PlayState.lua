@@ -5,8 +5,6 @@ function PlayState:enter(params)
     self.highScores = params.highScores
 end
 
-function PlayState:exit()
-end
 
 function PlayState:init()
     reset()
@@ -68,6 +66,7 @@ function PlayState:update(dt)
                 table.remove(bullets, bulletIndex)
                 self.score = self.score + 1
                 score = self.score + 1
+                --score = score + 1
                 gSounds['hit']:play()
 
                 if asteroid.stage > 1 then
@@ -100,7 +99,7 @@ function PlayState:update(dt)
             camera:shake(8, 1, 60)
             gStateMachine:change('score', {
                   score = self.score,
-                  highScores = self.highScores
+                  highScores = loadHighScores()
                 })
             break
         end
