@@ -168,7 +168,7 @@ love.graphics.reset()
             love.graphics.reset()
             for bulletIndex, bullet in ipairs(bullets) do
               love.graphics.setColor(249,38,114)
-                love.graphics.circle('line', bullet.x, bullet.y, bulletRadius)
+              love.graphics.circle('line', bullet.x, bullet.y, bulletRadius)
                 love.graphics.setColor(102,217,239)
                  love.graphics.circle('line', bullet.a, bullet.b, bulletRadius)
                  love.graphics.reset()

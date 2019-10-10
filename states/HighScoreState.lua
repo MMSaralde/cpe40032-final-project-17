@@ -1,6 +1,6 @@
 HighScoreState = Class{__includes = BaseState}
 local anim8 = require 'lib/anim8'
-local image, animation, image_black, animation_2
+local image, animation, image_black, animation_2 
 
 function HighScoreState:enter(params)
    self.highScores = params.highScores

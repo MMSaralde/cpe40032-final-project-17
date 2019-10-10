@@ -34,7 +34,7 @@ smallFont = love.graphics.newFont('font/font.ttf', 8)
 mediumFont = love.graphics.newFont('font/font.ttf', 16)
 mediumFont_2 = love.graphics.newFont('font/font.ttf', 25)
 largeFont = love.graphics.newFont('font/font.ttf', 30)
-tutorialFont = love.graphics.newFont('font/font.ttf', 80)
+tutorialFont = love.graphics.newFont('font/font.ttf', 60)
 hugeFont = love.graphics.newFont('font/font.ttf', 300)
 
 gSounds = {
