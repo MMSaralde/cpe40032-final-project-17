@@ -1,5 +1,6 @@
 EnterHighScoreState = Class{__includes = BaseState}
-
+local anim8 = require 'lib/anim8'
+local image, animation, image_black, animation_2
 local chars = {
     [1] = 65,
     [2] = 65,
@@ -8,6 +9,16 @@ local chars = {
 
 local highlightedChar = 1
 
+function EnterHighScoreState:init()
+    image = love.graphics.newImage('graphics/player_sprite.png')
+      local g = anim8.newGrid(32,32, image:getWidth(), image:getHeight())
+      animation = anim8.newAnimation(g('1-2',1), 0.1)
+      
+      image_black = love.graphics.newImage('graphics/player_sprite_black.png')
+       local g_2 = anim8.newGrid(32,32, image:getWidth(), image:getHeight())
+      animation_2 = anim8.newAnimation(g_2('1-2',1), 0.1)
+    end
+    
 function EnterHighScoreState:enter(params)
     self.highScores = params.highScores
     self.score = params.score
@@ -19,6 +30,8 @@ end
 
 
 function EnterHighScoreState:update(dt)
+        animation:update(dt)
+    animation_2:update(dt)
     if love.keyboard.isDown('enter') or love.keyboard.isDown('return') then
         local name = string.char(chars[1]) .. string.char(chars[2]) .. string.char(chars[3])
         for i = 10, self.scoreIndex, -1 do
@@ -62,7 +75,10 @@ function EnterHighScoreState:update(dt)
 end
 
 function EnterHighScoreState:render()
-      love.graphics.setFont(mediumFont)
+  animation:draw(image, 500 ,WINDOW_HEIGHT /2)
+    animation_2:draw(image_black,740,WINDOW_HEIGHT/2)
+      love.graphics.setFont(largeFont)
+         love.graphics.setColor(204, 254, 255)
     love.graphics.printf('Your score: ' .. tostring(self.score), 0, 50,WINDOW_WIDTH, 'center')
     love.graphics.setFont(largeFont)
     if highlightedChar == 1 then

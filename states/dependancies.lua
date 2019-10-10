@@ -3,6 +3,7 @@ dependancies = Class{}
 Camera = require 'lib/Camera'
 screen = require "lib/shack"
 
+require 'lib/intro'
 require 'lib/Util'
 require 'states/constants'
 require 'lib/StateMachine'

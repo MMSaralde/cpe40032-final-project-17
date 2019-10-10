@@ -94,7 +94,7 @@ function PlayState:update(dt)
                         x = asteroid.x,
                         y = asteroid.y,
                         angle = angle2,
-                        stage = asteroid.stage,
+                        stage = asteroid.stage -1,
                     })
                 end
                 table.remove(asteroids, asteroidIndex)
@@ -135,11 +135,11 @@ function PlayState:render()
   love.graphics.draw(cursor, mouse.x- cursor:getWidth() / 2, mouse.y- cursor:getHeight() / 2)
   animation:draw(image, shipX-16,shipY-16)
   love.graphics.setFont(mediumFont)
-  love.graphics.setColor(249,38,114)
+   love.graphics.setColor(204, 254, 255)
   love.graphics.print('Mouse Coordinates: ' .. mouse.x .. ', ' .. mouse.y..
   '     FPS: '..tostring(love.timer.getFPS())..
-  '     Score: '..(tostring(score))..
-  '     Time: '..string.sub(tostring(time),1,1))
+  '     Score: '..(tostring(score)))
+
 love.graphics.reset()
 
     for y = -1, 1 do
@@ -174,7 +174,7 @@ love.graphics.reset()
                  love.graphics.reset()
                end
           --love.graphics.setShader(effect)
-          love.graphics.setColor(253,151,31)
+          love.graphics.setColor(227, 86, 129)
             for asteroidIndex, asteroid in ipairs(asteroids) do
                 love.graphics.circle('line', asteroid.x, asteroid.y, asteroidStages[asteroid.stage].radius)
             end

@@ -13,6 +13,7 @@ push - https://github.com/Ulydev/push
 shack - https://github.com/Ulydev/shack
 camera - https://github.com/adnzzzzZ/STALKER-X
 anim8 - https://github.com/kikito/anim8
+intro - https://love2d.org/forums/viewtopic.php?f=5&t=84488
 
 graphics
 crosshair - https://ebens.me/images/posts/crosshair.png
