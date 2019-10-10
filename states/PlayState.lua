@@ -141,6 +141,7 @@ function PlayState:render()
   '     Score: '..(tostring(score)))
 
 love.graphics.reset()
+            local shipCircleDistance = 30
 
     for y = -1, 1 do
         for x = -1, 1 do
@@ -149,7 +150,6 @@ love.graphics.reset()
             love.graphics.setShader(effect)
             love.graphics.circle('line', shipX, shipY, shipRadius)
             love.graphics.reset()
-            local shipCircleDistance = 30
             love.graphics.setColor(249,38,114)
             love.graphics.circle(
                 'line',
