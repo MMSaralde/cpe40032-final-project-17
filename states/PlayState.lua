@@ -1,11 +1,13 @@
 PlayState = Class{__includes = BaseState}
 
+local anim8 = require 'lib/anim8'
+local image, animation
+
 function PlayState:enter(params)
     self.score = params.score
     self.highScores = params.highScores
     self.time = params.time
 end
-
 
 function PlayState:init()
     reset()
@@ -14,22 +16,27 @@ function PlayState:init()
     t = 0
     time = 0
     love.mouse.setVisible(false)
-    calamity_timer = 10
+    
+    image = love.graphics.newImage('graphics/player_sprite.png')
+  local g = anim8.newGrid(32,32, image:getWidth(), image:getHeight())
+  animation = anim8.newAnimation(g('1-2',1), 0.1)
+    
 end
 
 function PlayState:update(dt)
+  animation:update(dt)
       t = t + dt
       effect:send("time", t)
       time = time + dt 
-      calamity_timer = calamity_timer - dt
-      
-     if calamity_timer <= 0 then
-        calamity_timer = 10
-      end
-   
-    mouse.x, mouse.y = love.mouse.getPosition()
-    shipAngle =  math.atan2(mouse.y-shipY, mouse.x-shipX) % (2 * math.pi)
+      mouse.x, mouse.y = love.mouse.getPosition()
+      shipAngle =  math.atan2(mouse.y-shipY, mouse.x-shipX) % (2 * math.pi)
     
+    if love.keyboard.isDown('d') then
+            backgroundScroll = (backgroundScroll + BACKGROUND_SCROLL_SPEED * dt)% BACKGROUND_LOOPING_POINT
+      elseif love.keyboard.isDown('a') then
+            backgroundScroll = (backgroundScroll - BACKGROUND_SCROLL_SPEED * dt) % BACKGROUND_LOOPING_POINT
+          end
+          
     if love.keyboard.isDown('w') then
       shipY = (shipY - player_speed*dt) % WINDOW_HEIGHT 
     end
@@ -72,7 +79,6 @@ function PlayState:update(dt)
                 table.remove(bullets, bulletIndex)
                 self.score = self.score + 1
                 score = self.score + 1
-                --score = score + 1
                 gSounds['hit']:play()
 
                 if asteroid.stage > 1 then
@@ -117,7 +123,6 @@ function PlayState:update(dt)
     end
     
   if #asteroids == 0 then
-       -- reset()
      gStateMachine:change('enterhighscore', {
                    score = self.score,
                    highScores = self.highScores,
@@ -126,30 +131,26 @@ function PlayState:update(dt)
     end
 end
 
-
 function PlayState:render()
   love.graphics.draw(cursor, mouse.x- cursor:getWidth() / 2, mouse.y- cursor:getHeight() / 2)
-  love.graphics.draw(player,shipX-16,shipY-16)
-
+  animation:draw(image, shipX-16,shipY-16)
   love.graphics.setFont(mediumFont)
+  love.graphics.setColor(249,38,114)
   love.graphics.print('Mouse Coordinates: ' .. mouse.x .. ', ' .. mouse.y..
   '     FPS: '..tostring(love.timer.getFPS())..
   '     Score: '..(tostring(score))..
-  '     Time: '..string.sub(tostring(time),1,1)..
-  '     Calamity: '..string.sub(tostring(calamity_timer),1,1))
---player circle
+  '     Time: '..string.sub(tostring(time),1,1))
+love.graphics.reset()
+
     for y = -1, 1 do
         for x = -1, 1 do
             love.graphics.origin()
             love.graphics.translate(x * WINDOW_WIDTH, y * WINDOW_HEIGHT)
-            --love.graphics.setColor(255,0,127)
-            love.graphics.setColor(math.random(0,255),math.random(0,255),math.random(0,255),math.random(0,255))
-            --love.graphics.setShader(effect)
+            love.graphics.setShader(effect)
             love.graphics.circle('line', shipX, shipY, shipRadius)
             love.graphics.reset()
---player turret
             local shipCircleDistance = 30
-            love.graphics.setColor(113,238,184)
+            love.graphics.setColor(249,38,114)
             love.graphics.circle(
                 'line',
                 shipX + math.cos(shipAngle) * shipCircleDistance,
@@ -157,7 +158,7 @@ function PlayState:render()
                 5
             )
             love.graphics.reset()
-            love.graphics.setColor(255,191,0)
+            love.graphics.setColor(102,217,239)
             love.graphics.circle(
                 'line',
                 shipX - math.cos(shipAngle) * shipCircleDistance,
@@ -165,16 +166,15 @@ function PlayState:render()
                 5
             )
             love.graphics.reset()
-            --bullet
             for bulletIndex, bullet in ipairs(bullets) do
-              love.graphics.setColor(113,238,184)
+              love.graphics.setColor(249,38,114)
                 love.graphics.circle('line', bullet.x, bullet.y, bulletRadius)
-                love.graphics.setColor(255,191,0)
+                love.graphics.setColor(102,217,239)
                  love.graphics.circle('line', bullet.a, bullet.b, bulletRadius)
                  love.graphics.reset()
                end
-          --enemies
-          love.graphics.setShader(effect)
+          --love.graphics.setShader(effect)
+          love.graphics.setColor(253,151,31)
             for asteroidIndex, asteroid in ipairs(asteroids) do
                 love.graphics.circle('line', asteroid.x, asteroid.y, asteroidStages[asteroid.stage].radius)
             end
@@ -182,7 +182,6 @@ function PlayState:render()
         end
     end
 end
-
 
 function PlayState:enter()
 end

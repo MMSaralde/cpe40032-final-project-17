@@ -14,27 +14,16 @@ screen:setDimensions(love.graphics.getDimensions())
 mouse = {}
 player_speed = 500
 
-particle = love.graphics.newImage("graphics/snow.png")
-snow_system = love.graphics.newParticleSystem(particle, 1000)
-	snow_system:setEmissionRate(100)
-	snow_system:setSpeed(1,3)
-	snow_system:setLinearAcceleration(-20, 50, 20, 100)
-	snow_system:setSizes(0.7,0.6,0.5)
-	snow_system:setPosition(1280/2,0)
-	snow_system:setEmitterLifetime(-1)
-	snow_system:setParticleLifetime(3,5.5)
-	snow_system:setDirection(.45)
-	snow_system:setAreaSpread("normal",300,0)
-  snow_system:setColors(255,255,255,200)
-  
-background = love.graphics.newImage('graphics/grid.jpg')
+background = love.graphics.newImage('graphics/grid_4.jpg')
 backgroundScroll = 0
 BACKGROUND_SCROLL_SPEED = 500
 BACKGROUND_LOOPING_POINT = 480
 
-
 player = love.graphics.newImage('graphics/player_3.png')
 cursor = love.graphics.newImage('graphics/crosshair.png')
+
+--player_2 =love.graphics.newImage('graphics/player_sprite.png')
+--player_animate = GenerateQuads('player_2',32,32)
 
 mouse.x, mouse.y = love.mouse.getPosition()
 
@@ -53,7 +42,8 @@ gSounds = {
         ['count'] = love.audio.newSource('sounds/countdown.wav'),
         ['bg_3'] = love.audio.newSource('sounds/bg_3.mp3')
     }
-
+    
+   
  function reset()
         shipX = WINDOW_WIDTH / 2
         shipY = WINDOW_HEIGHT / 2
@@ -92,17 +82,12 @@ gSounds = {
 function love.keypressed(key)
    if key=='escape' then 
      love.event.quit()
-     
-     --elseif key == 'f' then
-       -- camera:fade(1, {0, 0, 0, 0})
       elseif key == 'space' then 
         shipX = mouse.x
         shipY = mouse.y
     end
   end
   
-
-    
 function love.mousepressed( x, y, button, istouch, presses )
   if button == 1 then
     if bulletTimer >= 0.1 then

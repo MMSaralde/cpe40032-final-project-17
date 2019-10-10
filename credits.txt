@@ -12,6 +12,7 @@ libraries
 push - https://github.com/Ulydev/push
 shack - https://github.com/Ulydev/shack
 camera - https://github.com/adnzzzzZ/STALKER-X
+anim8 - https://github.com/kikito/anim8
 
 graphics
 crosshair - https://ebens.me/images/posts/crosshair.png
@@ -19,4 +20,5 @@ grid_1 - http://archive.zbrushcentral.com/attachment.php?attachmentid=250332
 grid_2 - http://archive.zbrushcentral.com/attachment.php?attachmentid=250263
 grid_3 - http://archive.zbrushcentral.com/attachment.php?attachmentid=250261
 grid_4 - http://archive.zbrushcentral.com/attachment.php?attachmentid=250258
+grid_4 - https://wallpaperplay.com/walls/full/0/2/5/139467.jpg
 

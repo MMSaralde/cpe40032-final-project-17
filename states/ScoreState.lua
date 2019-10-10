@@ -6,22 +6,18 @@ function ScoreState:enter(params)
     self.time = params.time
 end
 
-
 function ScoreState:init()
       love.mouse.setVisible(true)
     end
     
-
 function ScoreState:exit()
 end
-
 
 function ScoreState:update(dt)
     if love.keyboard.isDown('R') or love.keyboard.isDown('r') then
         gStateMachine:change('play')
         reset()
     elseif love.keyboard.isDown('M') or love.keyboard.isDown('m') then
-      --gStateMachine:change('title')
       local highScore = false
         local scoreIndex = 11
         for i = 10, 1, -1 do
@@ -50,7 +46,6 @@ function ScoreState:update(dt)
 end
 
 function ScoreState:render()
-    --love.graphics.clear(40, 45, 52, 255)
     love.graphics.setColor(255,255,255)
     love.graphics.setFont(hugeFont)
     love.graphics.printf('DEAD', 0, 150, 1280, 'center')

@@ -3,7 +3,7 @@ dependancies = Class{}
 Camera = require 'lib/Camera'
 screen = require "lib/shack"
 
-
+require 'lib/Util'
 require 'states/constants'
 require 'lib/StateMachine'
 require 'states/BaseState'
@@ -15,3 +15,4 @@ require 'states/TutorialState'
 
 require 'states/HighScoreState'
 require 'states/EnterHighScoreState'
+
