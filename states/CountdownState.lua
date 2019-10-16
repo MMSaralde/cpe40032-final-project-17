@@ -36,8 +36,8 @@ function CountdownState:update(dt)
 
 
 function CountdownState:render()
-   animation:draw(image, 500 , 250)
-    animation_2:draw(image_black,740,250)
+   animation:draw(image, 500 , 270)
+    animation_2:draw(image_black,740,270)
   love.graphics.setFont(hugeFont)
   love.graphics.printf(tostring(self.count), 20, 150, 1280, 'center')
 end

@@ -1,12 +1,13 @@
 EnterHighScoreState = Class{__includes = BaseState}
+
 local anim8 = require 'lib/anim8'
 local image, animation, image_black, animation_2
+
 local chars = {
     [1] = 65,
     [2] = 65,
     [3] = 65
 }
-
 local highlightedChar = 1
 
 function EnterHighScoreState:init()

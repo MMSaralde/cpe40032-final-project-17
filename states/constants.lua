@@ -5,12 +5,6 @@ WINDOW_HEIGHT = 720
   
 camera = Camera(x,y,WINDOW_WIDTH,WINDOW_HEIGHT)
 
-screen:setRotation(rotation)
-screen:setShear(x, y)
-screen:setScale(x, y)
-screen:setShake()
-screen:setDimensions(love.graphics.getDimensions())
-
 mouse = {}
 player_speed = 500
 
@@ -22,13 +16,10 @@ BACKGROUND_LOOPING_POINT = 480
 player = love.graphics.newImage('graphics/player_3.png')
 cursor = love.graphics.newImage('graphics/crosshair.png')
 
---player_2 =love.graphics.newImage('graphics/player_sprite.png')
---player_animate = GenerateQuads('player_2',32,32)
-
 mouse.x, mouse.y = love.mouse.getPosition()
 
 shipRadius = 30
-bulletRadius = 5  
+bulletRadius = 5
 
 smallFont = love.graphics.newFont('font/font.ttf', 8)
 mediumFont = love.graphics.newFont('font/font.ttf', 16)

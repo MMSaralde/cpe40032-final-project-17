@@ -39,5 +39,5 @@ function TutorialState:render()
     love.graphics.printf('SHOOT : LEFT MOUSE',0, 400, WINDOW_WIDTH, 'center')
     love.graphics.printf('TELEPORT TO TARGET : SPACE',0, 450, WINDOW_WIDTH, 'center')
     love.graphics.reset()
-    love.graphics.printf('Press SPACE to return',0, 650, WINDOW_WIDTH, 'center')
+    love.graphics.printf('Press SPACE to return to the main menu!',0, 650, WINDOW_WIDTH, 'center')
 end
